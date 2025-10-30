@@ -8,13 +8,16 @@ from app.utils import init_db
 def create_app():
     app = Flask(__name__)
     app.config.from_object(Config)
+    
     # register blueprints
     app.register_blueprint(products_bp)
     app.register_blueprint(workflows_bp)
     app.register_blueprint(webhooks_bp)
+    
     # init DB (idempotent)
-    init_db()     # Health check endpoints
-   @app.get("/")
+    init_db()    # Health check endpoints
+    
+    @app.get("/")
     def root():
         return {"status": "ok", "service": "flask-api"}, 200
     
@@ -22,7 +25,7 @@ def create_app():
     def healthz():
         return {"ok": True}, 200
     
- @app.get("/dbcheck")
+    @app.get("/dbcheck")
     def dbcheck():
         from sqlalchemy import text
         from app.utils import engine  # Lazy import - only loads when endpoint is hit
@@ -32,3 +35,5 @@ def create_app():
             return {"db": "ok"}, 200
         except Exception as e:
             return {"db": "error", "message": str(e)}, 500
+
+    return app
