@@ -14,7 +14,8 @@ engine = create_engine(
     future=True, 
     echo=False, 
     pool_pre_ping=True,
-    connect_args={"sslmode": "require"}
+    pool_size=5,
+    max_overflow=10
 )
 
 def init_db():
