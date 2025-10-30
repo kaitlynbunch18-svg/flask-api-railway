@@ -14,7 +14,7 @@ def create_app():
     app.register_blueprint(webhooks_bp)
     # init DB (idempotent)
     init_db()     # Health check endpoints
-    @app.get("/")
+   @app.get("/")
     def root():
         return {"status": "ok", "service": "flask-api"}, 200
     
